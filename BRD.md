@@ -6,7 +6,7 @@
 
 | **Дата** | **Описание изменения**| **Версия** | **Автор** | **Бизнес-заказчик** | **Согласование бизнес-заказчика** |
 | :------: | -------------------------------|:-:| -------------- | ----------|--|
-| 18.12.23 | Согласованная версия документа |1.0| Рамазанова Р.Р.| Еремчук Е.|  <input type="checkbox"> yo |
+| 18.12.23 | Согласованная версия документа |1.0| Рамазанова Р.Р.| Еремчук Е.| <input type="checkbox"> Cогласовано |
 
 ## **Оглавление** ##
 1. [Общая информация](#1)
@@ -69,3 +69,44 @@
 
 ## <a name="6"> </a> **6.	Приложения** ##
 ![BPMN](BPMN.drawio.png "Диаграмма взаимодействия в нотации BPMN")
+
+```plantuml
+@startuml
+skinparam actorStyle awesome
+skinparam linetype ortho
+left to right direction
+Actor Клиент as clt
+Actor Курьер as cur
+package Банк{
+Actor "Сотрудник банка" as sb1
+Actor "Служба безопасности" as sb2
+}
+rectangle "Система для заказа карты с доставкой на дом" {
+usecase "Оформить карту" as uc1
+usecase "Заполнить данные" as uc2
+usecase "Доставка карты" as uc13
+usecase "Подписать договор" as uc3
+usecase "Проверить клиента" as uc7
+usecase "Запустить процесс изготовления карты" as uc8
+usecase "Изменить статус карты" as uc11
+usecase "Договориться о дате/времени" as uc5
+usecase "Передача документов" as uc9
+usecase "Выдача документов и карты" as uc12
+usecase "Пройти идентификацию" as uc6
+}
+uc9 <-- sb1
+uc1 <-- clt
+uc1 .> uc2: <<include>>
+uc7 <-- sb2
+sb1 --> uc5
+clt --> uc5
+sb1 --> uc8
+uc13 .> uc6: <<include>>
+uc3 .> uc13: <<extend>>
+uc12 .> uc13: <<extend>>
+uc13 <-- cur
+clt --> uc13
+uc11 <-- sb1
+cur --> uc9
+@enduml
+```
